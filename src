@@ -1,0 +1,72 @@
+CREATE DATABASE IF NOT EXISTS Desenvolvimentosoftware;
+USE Desenvolvimentosoftware;
+
+CREATE TABLE IF NOT EXISTS Funcionario (
+ID_Funcionario INT AUTO_INCREMENT PRIMARY KEY,
+Nome VARCHAR(100) NOT NULL,
+Cargo VARCHAR(50) NOT NULL,
+Salario DECIMAL(10, 2)
+);
+
+INSERT INTO Funcionario (Nome, Cargo, Salario)
+VALUES
+('Larissa', 'Repositora', '1000'),
+('Manoela', 'Gerente', '2000');
+
+CREATE TABLE IF NOT EXISTS Gerente (
+ID_Gerente INT AUTO_INCREMENT PRIMARY KEY,
+Nome VARCHAR(100) NOT NULL,
+Salario DECIMAL(10, 2)
+);
+
+INSERT INTO Gerente (Nome, Salario)
+VALUES
+('Amanda', '2500');
+
+CREATE TABLE IF NOT EXISTS Projeto (
+ID_Projeto INT AUTO_INCREMENT PRIMARY KEY,
+Nome_Projeto VARCHAR(100) NOT NULL,
+ID_Gerente INT,
+FOREIGN KEY (ID_Gerente) REFERENCES Gerente(ID_Gerente)
+ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+INSERT INTO Projeto (Nome_Projeto)
+VALUES
+('Server Game'),
+('Server Trabalho'),
+('IA');
+
+CREATE TABLE IF NOT EXISTS Tarefa (
+ID_Tarefa INT AUTO_INCREMENT PRIMARY KEY,
+ID_Projeto INT,
+FOREIGN KEY (ID_Projeto) REFERENCES Projeto(ID_Projeto)
+ON DELETE SET NULL ON UPDATE CASCADE,
+Descricao TEXT,
+Status_Projeto ENUM('Planejamento', 'Inicializado', 'Finalizado')
+);
+
+INSERT INTO Tarefa (Descricao, Status_Projeto)
+VALUES
+('Um servidor direcionado esclusivamente para jogos', 'Inicializado'),
+('Um servidor direcionado esclusivajente para meios de trabalhos', 'Finalizado'),
+('Inteligência artificial com funções exclusivas', 'Planejamento');
+
+CREATE TABLE IF NOT EXISTS Alocacao (
+ID_Alocacao INT AUTO_INCREMENT PRIMARY KEY,
+ID_Funcionario INT,
+FOREIGN KEY (ID_Funcionario) REFERENCES Funcionario(ID_Funcionario)
+ON DELETE SET NULL ON UPDATE CASCADE,
+ID_Tarefa INT,
+FOREIGN KEY (ID_Tarefa) REFERENCES Tarefa(ID_Tarefa)
+ON DELETE SET NULL ON UPDATE CASCADE,
+Horas_Trabalhadas VARCHAR(50)
+);
+
+INSERT INTO Alocacao (Horas_Trabalhadas)
+VALUES
+('12'),
+('10'),
+('12');
+
+SELECT * FROM Tarefa;
